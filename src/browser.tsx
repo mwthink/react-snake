@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import Snake from './Snake';
+import Game from './Game';
 
 const appTarget = document.createElement('div');
 document.body.appendChild(appTarget);
@@ -13,6 +13,6 @@ normalizeCss.integrity = 'sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=';
 document.head.appendChild(normalizeCss)
 
 render(
-  <Snake/>
+  <Game/>
   ,appTarget
 )

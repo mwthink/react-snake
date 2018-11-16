@@ -16,32 +16,19 @@ interface SnakeState {
 }
 
 export class Snake extends React.Component <SnakeProps,SnakeState> {
+  private stepInterval: any = null;
   static readonly defaultProps: SnakeProps = {
     cols: 15,
     rows: 15,
     px: 10,
   }
   componentDidMount(){
-    setInterval(this.step,90)
-    document.addEventListener('keydown',(e)=>{
-      if(e.code.indexOf('Arrow')!==0){return;}
-      const { direction } = this.state;
-      const inputDirection = e.code.split('Arrow')[1];
-      switch(inputDirection){
-        case 'Up':
-          if(direction===Direction.S){return;}
-          return this.setState({direction:Direction.N})
-        case 'Down':
-          if(direction===Direction.N){return;}
-          return this.setState({direction:Direction.S})
-        case 'Left':
-          if(direction===Direction.E){return;}
-          return this.setState({direction:Direction.W})
-        case 'Right':
-          if(direction===Direction.W){return;}
-          return this.setState({direction:Direction.E})
-      }
-    },false)
+    this.stepInterval = setInterval(this.step,90);
+    document.addEventListener('keydown',this.handleKeyboard,false);
+  }
+  componentWillUnmount(){
+    clearInterval(this.stepInterval);
+    document.removeEventListener('keydown',this.handleKeyboard,false);
   }
   constructor(props){
     super(props);
@@ -58,6 +45,26 @@ export class Snake extends React.Component <SnakeProps,SnakeState> {
     this.nextHeadPos = this.nextHeadPos.bind(this);
     this.nextFoodPos = this.nextFoodPos.bind(this);
     this.handleCollision = this.handleCollision.bind(this);
+    this.handleKeyboard = this.handleKeyboard.bind(this);
+  }
+  handleKeyboard(e:KeyboardEvent){
+    if(e.code.indexOf('Arrow')!==0){return;}
+    const { direction } = this.state;
+    const inputDirection = e.code.split('Arrow')[1];
+    switch(inputDirection){
+      case 'Up':
+        if(direction===Direction.S){return;}
+        return this.setState({direction:Direction.N})
+      case 'Down':
+        if(direction===Direction.N){return;}
+        return this.setState({direction:Direction.S})
+      case 'Left':
+        if(direction===Direction.E){return;}
+        return this.setState({direction:Direction.W})
+      case 'Right':
+        if(direction===Direction.W){return;}
+        return this.setState({direction:Direction.E})
+    }
   }
   handleCollision(): void {
     if(this.props.onCollision){
