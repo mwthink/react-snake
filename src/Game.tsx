@@ -32,15 +32,15 @@ export class Game extends React.Component <{},GameState> {
       return <Snake cols={state.cols} rows={state.rows} stepInterval={state.stepInterval} onCollision={this.endGame}/>
     }
     return (
-      <div>
+      <form onSubmit={e=>{e.preventDefault();this.startGame()}}>
         <div>
           Rows: <input type="number" min={5} value={state.rows} onChange={e=>this.setState({rows:Math.floor(Number(e.target.value))})}/>
         </div>
         <div>
           Cols: <input type="number" min={5} value={state.cols} onChange={e=>this.setState({cols:Math.floor(Number(e.target.value))})}/>
         </div>
-        <button onClick={this.startGame}>Start</button>
-      </div>
+        <button type="submit">Start</button>
+      </form>
     )
   }
 }
