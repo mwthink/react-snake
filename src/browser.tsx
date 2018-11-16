@@ -5,6 +5,7 @@ import Game from './Game';
 const appTarget = document.createElement('div');
 document.body.appendChild(appTarget);
 
+// Inject normalize.css
 const normalizeCss = document.createElement('link');
 normalizeCss.rel = 'stylesheet';
 normalizeCss.href = 'https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css';

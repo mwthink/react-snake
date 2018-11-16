@@ -114,14 +114,29 @@ export class Snake extends React.Component <SnakeProps,SnakeState> {
     const gotFood = Boolean(nextPos[0]===foodPos[0]&&nextPos[1]===foodPos[1])
 
     this.setState({
-      snakePos: [nextPos].concat(snakePos.map((pos,i,o)=>i==0?pos:(o[i-1])).slice(gotFood?0:1)),
       foodPos: gotFood?this.nextFoodPos():foodPos,
+      // Rebuilding the snake
+      // Start with the new head position
+      snakePos: [nextPos].concat(
+        snakePos
+        // Shift each body position up 1 except index #0
+        .map((pos,i,o)=>i==0?pos:(o[i-1]))
+        // If the snake acquired food, slice off nothing
+        // If the snake did not acquire food, remove the first element
+        .slice(gotFood?0:1)
+      ),
     })
   }
+  /**
+   * Returns true if the specified grid contains the snake body
+   */
   isGridFilled(row:number,col:number): boolean {
     const { snakePos } = this.state;
     return Boolean(snakePos.find(v=>(v[0]===row)&&(v[1]===col)));
   }
+  /**
+   * Returns true if the specified grid contains food
+   */
   isGridFood(row:number,col:number): boolean {
     const { foodPos } = this.state;
     return Boolean(foodPos[0]===row&&foodPos[1]===col);
