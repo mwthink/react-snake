@@ -12,8 +12,7 @@ export const config: Configuration = {
   ],
   output: {
     path: OUT_DIR,
-    filename: 'js/[name].js',
-    publicPath: '/'
+    filename: '[name].js',
   },
   resolve: {
     extensions: ['.js','.jsx','.ts','.tsx'],
