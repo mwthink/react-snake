@@ -6,6 +6,7 @@
   "author": "Marshall Williams <marshall@mwthink.net>",
   "license": "MIT",
   "scripts": {
+    "build": "npx webpack",
     "dev": "npx webpack-dev-server"
   },
   "dependencies": {
