@@ -10,6 +10,7 @@ export interface SnakeProps {
   stepInterval?: number;
   snakeColor?: string;
   foodColor?: string;
+  paused?: boolean;
 }
 
 interface SnakeState {
@@ -95,6 +96,9 @@ export class Snake extends React.Component <SnakeProps,SnakeState> {
     }
   }
   step(){
+    if(this.props.paused){
+      return;
+    }
     const { snakePos, foodPos } = this.state;
     const { cols, rows } = this.props;
     const nextPos = this.nextHeadPos();

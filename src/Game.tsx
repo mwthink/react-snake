@@ -3,6 +3,7 @@ import Snake from './Snake';
 
 interface GameState {
   running: boolean;
+  paused: boolean;
   rows: number;
   cols: number;
   stepInterval: number;
@@ -15,6 +16,7 @@ export class Game extends React.Component <{},GameState> {
     super(props);
     this.state = {
       running: false,
+      paused: false,
       rows: 20,
       cols: 20,
       stepInterval: 90,
@@ -24,6 +26,7 @@ export class Game extends React.Component <{},GameState> {
     this.handleKeyboard = this.handleKeyboard.bind(this);
     this.startGame = this.startGame.bind(this);
     this.endGame = this.endGame.bind(this);
+    this.togglePause = this.togglePause.bind(this);
   }
   componentDidMount(){
     document.addEventListener('keydown',this.handleKeyboard,false);
@@ -35,18 +38,29 @@ export class Game extends React.Component <{},GameState> {
     switch(e.code){
       case 'Escape':
         return this.endGame();
+      case 'KeyP':
+        return this.togglePause();
     }
   }
   startGame(){
-    this.setState({running:true})
+    this.setState({running:true});
   }
   endGame(){
-    this.setState({running:false});
+    this.setState({running:false,paused:false});
+  }
+  /**
+   * Toggle the paused state of the running game
+   * Does nothing if no game running
+   */
+  togglePause(){
+    // Do nothing if not running
+    if(!this.state.running){return;}
+    this.setState({paused:!this.state.paused})
   }
   render(){
     const { state } = this;
     if(state.running){
-      return <Snake foodColor={state.foodColor} snakeColor={state.snakeColor} cols={state.cols} rows={state.rows} stepInterval={state.stepInterval} onCollision={this.endGame}/>
+      return <Snake paused={this.state.paused} foodColor={state.foodColor} snakeColor={state.snakeColor} cols={state.cols} rows={state.rows} stepInterval={state.stepInterval} onCollision={this.endGame}/>
     }
     return (
       <form onSubmit={e=>{e.preventDefault();this.startGame()}}>
