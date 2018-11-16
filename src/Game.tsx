@@ -21,8 +21,21 @@ export class Game extends React.Component <{},GameState> {
       snakeColor: '#0000ff',
       foodColor: '#ffa500',
     };
+    this.handleKeyboard = this.handleKeyboard.bind(this);
     this.startGame = this.startGame.bind(this);
     this.endGame = this.endGame.bind(this);
+  }
+  componentDidMount(){
+    document.addEventListener('keydown',this.handleKeyboard,false);
+  }
+  componentWillUnmount(){
+    document.removeEventListener('keydown',this.handleKeyboard,false);
+  }
+  handleKeyboard(e:KeyboardEvent){
+    switch(e.code){
+      case 'Escape':
+        return this.endGame();
+    }
   }
   startGame(){
     this.setState({running:true})
