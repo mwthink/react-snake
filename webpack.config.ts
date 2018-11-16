@@ -3,7 +3,7 @@ import * as HtmlWebpackPlugin from 'html-webpack-plugin';
 import * as Path from 'path';
 
 const SRC_DIR = Path.resolve(__dirname,'src');
-const OUT_DIR = Path.resolve(__dirname,'build');
+const OUT_DIR = Path.resolve(__dirname,'docs');
 
 export const config: Configuration = {
   mode: 'development',

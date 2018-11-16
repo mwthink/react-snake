@@ -15,6 +15,6 @@ yarn install
 # To run with webpack-dev-server
 npm run dev
 
-# To build static assets into ./build
-npm run build
+# To build static assets into ./docs
+npm run build -- --mode production
 ```
