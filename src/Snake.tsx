@@ -8,6 +8,8 @@ export interface SnakeProps {
   px?: number;
   onCollision?: ()=>any;
   stepInterval?: number;
+  snakeColor?: string;
+  foodColor?: string;
 }
 
 interface SnakeState {
@@ -23,6 +25,8 @@ export class Snake extends React.Component <SnakeProps,SnakeState> {
     rows: 15,
     px: 10,
     stepInterval: 100,
+    snakeColor: 'blue',
+    foodColor: 'orange'
   }
   componentDidMount(){
     this.stepInterval = setInterval(this.step,this.props.stepInterval);
@@ -132,10 +136,10 @@ export class Snake extends React.Component <SnakeProps,SnakeState> {
               {new Array(props.cols).fill({}).map(({},ci)=>(
                 <td key={`${ci}-${ri}`} style={{padding:0,margin:0,border:'1px solid black',width:`${props.px}px`,height:`${props.px}px`}}>
                   {this.isGridFilled(ri,ci)?(
-                    <div style={{width:'100%',height:'100%',backgroundColor:'blue'}}>
+                    <div style={{width:'100%',height:'100%',backgroundColor:props.snakeColor}}>
                     </div>
                   ):(this.isGridFood(ri,ci)?(
-                    <div style={{width:'100%',height:'100%',backgroundColor:'orange'}}>
+                    <div style={{width:'100%',height:'100%',backgroundColor:props.foodColor}}>
                     </div>
                   ):null)}
                 </td>

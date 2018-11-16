@@ -6,6 +6,8 @@ interface GameState {
   rows: number;
   cols: number;
   stepInterval: number;
+  snakeColor: string;
+  foodColor: string;
 }
 
 export class Game extends React.Component <{},GameState> {
@@ -16,6 +18,8 @@ export class Game extends React.Component <{},GameState> {
       rows: 20,
       cols: 20,
       stepInterval: 90,
+      snakeColor: '#0000ff',
+      foodColor: '#ffa500',
     };
     this.startGame = this.startGame.bind(this);
     this.endGame = this.endGame.bind(this);
@@ -29,7 +33,7 @@ export class Game extends React.Component <{},GameState> {
   render(){
     const { state } = this;
     if(state.running){
-      return <Snake cols={state.cols} rows={state.rows} stepInterval={state.stepInterval} onCollision={this.endGame}/>
+      return <Snake foodColor={state.foodColor} snakeColor={state.snakeColor} cols={state.cols} rows={state.rows} stepInterval={state.stepInterval} onCollision={this.endGame}/>
     }
     return (
       <form onSubmit={e=>{e.preventDefault();this.startGame()}}>
@@ -38,6 +42,11 @@ export class Game extends React.Component <{},GameState> {
         </div>
         <div>
           Cols: <input type="number" min={5} value={state.cols} onChange={e=>this.setState({cols:Math.floor(Number(e.target.value))})}/>
+        </div>
+        <div>
+          Snake: <input type="color" value={this.state.snakeColor} onChange={e=>this.setState({snakeColor:e.target.value})}/>
+          {' '}
+          Food : <input type="color" value={this.state.foodColor} onChange={e=>this.setState({foodColor:e.target.value})}/>
         </div>
         <button type="submit">Start</button>
       </form>
