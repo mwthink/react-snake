@@ -2,6 +2,7 @@ import * as React from 'react';
 import Snake from './Snake';
 
 interface GameState {
+  startPaused: boolean;
   running: boolean;
   paused: boolean;
   rows: number;
@@ -15,6 +16,7 @@ export class Game extends React.Component <{},GameState> {
   constructor(props){
     super(props);
     this.state = {
+      startPaused: false,
       running: false,
       paused: false,
       rows: 20,
@@ -43,7 +45,7 @@ export class Game extends React.Component <{},GameState> {
     }
   }
   startGame(){
-    this.setState({running:true});
+    this.setState({running:true,paused:this.state.startPaused});
   }
   endGame(){
     this.setState({running:false,paused:false});
@@ -60,7 +62,25 @@ export class Game extends React.Component <{},GameState> {
   render(){
     const { state } = this;
     if(state.running){
-      return <Snake paused={this.state.paused} foodColor={state.foodColor} snakeColor={state.snakeColor} cols={state.cols} rows={state.rows} stepInterval={state.stepInterval} onCollision={this.endGame}/>
+      return (
+        <div>
+          <Snake
+            paused={this.state.paused}
+            foodColor={state.foodColor}
+            snakeColor={state.snakeColor}
+            cols={state.cols} rows={state.rows}
+            stepInterval={state.stepInterval}
+            onCollision={this.endGame}
+          />
+          {this.state.paused?(
+            <div>
+              <span style={{fontWeight:'bold'}}>Paused</span>
+              <br/>
+              <span style={{fontStyle:'italic'}}>Press 'P' to resume</span>
+            </div>
+          ):null}
+        </div>
+      )
     }
     return (
       <form onSubmit={e=>{e.preventDefault();this.startGame()}}>
@@ -74,6 +94,9 @@ export class Game extends React.Component <{},GameState> {
           Snake: <input type="color" value={this.state.snakeColor} onChange={e=>this.setState({snakeColor:e.target.value})}/>
           {' '}
           Food : <input type="color" value={this.state.foodColor} onChange={e=>this.setState({foodColor:e.target.value})}/>
+        </div>
+        <div>
+          Start Paused: <input type="checkbox" onChange={()=>this.setState({startPaused:!this.state.startPaused})} checked={this.state.startPaused}/>
         </div>
         <button type="submit">Start</button>
       </form>
