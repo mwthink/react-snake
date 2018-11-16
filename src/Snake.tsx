@@ -3,10 +3,11 @@ import * as React from 'react';
 enum Direction {N,S,E,W}
 
 export interface SnakeProps {
-  cols?: number;
-  rows?: number;
+  cols: number;
+  rows: number;
   px?: number;
   onCollision?: ()=>any;
+  stepInterval?: number;
 }
 
 interface SnakeState {
@@ -21,9 +22,10 @@ export class Snake extends React.Component <SnakeProps,SnakeState> {
     cols: 15,
     rows: 15,
     px: 10,
+    stepInterval: 100,
   }
   componentDidMount(){
-    this.stepInterval = setInterval(this.step,90);
+    this.stepInterval = setInterval(this.step,this.props.stepInterval);
     document.addEventListener('keydown',this.handleKeyboard,false);
   }
   componentWillUnmount(){
@@ -32,13 +34,13 @@ export class Snake extends React.Component <SnakeProps,SnakeState> {
   }
   constructor(props){
     super(props);
-    if(this.props.cols < 10 || this.props.rows < 10){
+    if(this.props.cols < 5 || this.props.rows < 5){
       throw new Error('rows and cols must be larger than 10');
     }
     this.state = {
       direction: Direction.E,
       snakePos: [[2,4],[2,3],[2,2]],
-      foodPos: [5,5],
+      foodPos: this.nextFoodPos(),
     };
     this.step = this.step.bind(this);
     this.isGridFilled = this.isGridFilled.bind(this);
